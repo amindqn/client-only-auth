@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 
 type Props = {
     name: string;
@@ -10,11 +11,13 @@ type Props = {
 };
 
 export default function ProfileCard({ name, email, phone, picture }: Props) {
+    const [imgError, setImgError] = useState(false);
+
     return (
         <Card className="md:col-span-5">
             <CardContent className="p-4">
                 <div className="flex items-center gap-4">
-                    {picture ? (
+                    {picture && !imgError ? (
                         <Image
                             src={picture}
                             alt={name}
@@ -22,6 +25,7 @@ export default function ProfileCard({ name, email, phone, picture }: Props) {
                             height={72}
                             className="h-18 w-18 rounded-full object-cover shadow"
                             priority
+                            onError={() => setImgError(true)}
                         />
                     ) : (
                         <div className="h-18 w-18 rounded-full bg-[var(--primary)] opacity-90" />
